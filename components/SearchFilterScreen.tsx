@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { BottomNavigation } from '../components/BottomNavigation';
+
+
 interface SearchFilterScreenProps {
   onBack: () => void;
   onSelectUsta: (id: number) => void;
@@ -35,7 +38,10 @@ export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 170 }} 
+      >
+
+      
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={onBack} style={styles.backButton}>
@@ -163,25 +169,15 @@ export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
         ))}
 
         {/* Bottom Navigation */}
-        <View style={styles.bottomNav}>
-          <TouchableOpacity onPress={onHomeClick} style={styles.bottomNavButton}>
-            <MaterialCommunityIcons name="home" size={24} color="#9ca3af" />
-            <Text style={styles.bottomNavText}>Bosh sahifa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.bottomNavButton}>
-            <MaterialCommunityIcons name="magnify" size={24} color="#3b82f6" />
-            <Text style={[styles.bottomNavText, { color: '#3b82f6' }]}>Qidiruv</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onOrdersClick} style={styles.bottomNavButton}>
-            <MaterialCommunityIcons name="wrench" size={24} color="#9ca3af" />
-            <Text style={styles.bottomNavText}>Buyurtmalar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onProfileClick} style={styles.bottomNavButton}>
-            <View style={styles.profileAvatar} />
-            <Text style={styles.bottomNavText}>Profil</Text>
-          </TouchableOpacity>
-        </View>
+    
       </ScrollView>
+           <BottomNavigation
+                currentTab="search"
+                onSearchClick={() => {}}
+                onOrdersClick={onOrdersClick}
+                onHomeClick={onHomeClick}
+                onProfileClick={onProfileClick}
+              />
     </SafeAreaView>
   );
 };

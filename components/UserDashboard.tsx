@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MotiView } from 'moti';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BottomNavigation } from '../components/BottomNavigation';
+
 
 interface UserDashboardProps {
   onBack: () => void;
@@ -250,26 +252,13 @@ export  function UserDashboard({ onBack, onHomeClick, onSearchClick, onProfileCl
         )}
       </ScrollView>
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <View style={styles.bottomNavRow}>
-          <TouchableOpacity onPress={onHomeClick} style={styles.bottomNavBtn}>
-            <MaterialCommunityIcons name="home-outline" size={28} color="#6b7280" />
-            <Text style={styles.bottomNavLabel}>Bosh sahifa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onSearchClick} style={styles.bottomNavBtn}>
-            <MaterialCommunityIcons name="magnify" size={28} color="#6b7280" />
-            <Text style={styles.bottomNavLabel}>Qidiruv</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.bottomNavBtn}>
-            <MaterialCommunityIcons name="wrench" size={28} color="#3b82f6" />
-            <Text style={[styles.bottomNavLabel, {color: '#3b82f6'}]}>Buyurtmalar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onProfileClick} style={styles.bottomNavBtn}>
-            <View style={styles.profileCircle} />
-            <Text style={styles.bottomNavLabel}>Profil</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <BottomNavigation
+        currentTab="orders"
+        onOrdersClick={() => {}}
+        onSearchClick={onSearchClick}
+        onHomeClick={onHomeClick}
+        onProfileClick={onProfileClick}
+      />
     </View>
   );
 }

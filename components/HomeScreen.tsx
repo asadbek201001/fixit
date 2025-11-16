@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Search, Zap, Wrench, Droplet, PaintBucket, Hammer, Wind, Home as HomeIcon } from 'lucide-react-native';
-
+import { BottomNavigation } from '../components/BottomNavigation';
 
 interface HomeScreenProps {
   onCategoryClick: (category: string) => void;
@@ -106,36 +106,13 @@ export function HomeScreen({
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={[styles.navButton, currentTab === 'home' && styles.navButtonActive]}
-          onPress={() => {}}
-        >
-          <HomeIcon size={24} color={currentTab === 'home' ? '#3B82F6' : '#9CA3AF'} />
-          <Text style={[styles.navText, currentTab === 'home' && styles.navTextActive]}>Bosh sahifa</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.navButton, currentTab === 'search' && styles.navButtonActive]}
-          onPress={onSearchClick}
-        >
-          <Search size={24} color={currentTab === 'search' ? '#3B82F6' : '#9CA3AF'} />
-          <Text style={[styles.navText, currentTab === 'search' && styles.navTextActive]}>Qidiruv</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.navButton, currentTab === 'orders' && styles.navButtonActive]}
-          onPress={onOrdersClick}
-        >
-          <Wrench size={24} color={currentTab === 'orders' ? '#3B82F6' : '#9CA3AF'} />
-          <Text style={[styles.navText, currentTab === 'orders' && styles.navTextActive]}>Buyurtmalar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.navButton, currentTab === 'profile' && styles.navButtonActive]}
-          onPress={onProfileClick}
-        >
-          <View style={[styles.profileIcon, currentTab === 'profile' ? { backgroundColor: '#3B82F6' } : { backgroundColor: '#9CA3AF' }]} />
-          <Text style={[styles.navText, currentTab === 'profile' && styles.navTextActive]}>Profil</Text>
-        </TouchableOpacity>
-      </View>
+     <BottomNavigation
+  currentTab="home"
+  onHomeClick={() => {}}
+  onSearchClick={onSearchClick}
+  onOrdersClick={onOrdersClick}
+  onProfileClick={onProfileClick}
+/>
     </SafeAreaView>
   );
 }
