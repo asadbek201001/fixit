@@ -7,15 +7,15 @@ import { ArrowLeft, Star, MapPin, Clock, Award, MessageCircle } from 'react-nati
 interface UstaProfileScreenProps {
   usta: {
     name: string;
-    profession: string;
+    profession?: string;
     location?: string;
     rating: number;
     reviews: number;
-    experience: string;
-    projects: string;
-    skills: string[];
-    price: string;
-    reviewList: { name: string; rating: number; comment: string; date: string }[];
+    experience?: string;
+    projects?: string;
+    skills?: string[];
+    price?: string;
+    reviewList?: { name: string; rating: number; comment: string; date: string }[];
   };
   onBack: () => void;
   onBooking: () => void;
@@ -23,6 +23,15 @@ interface UstaProfileScreenProps {
 } 
 
 export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfileScreenProps) {
+  if (!usta) return null;
+
+  const profession = usta.profession || (usta.skills && usta.skills.length > 0 ? usta.skills[0] : '');
+  const skills = usta.skills || [];
+  const reviewList = usta.reviewList || [];
+  const experience = usta.experience || 'N/A';
+  const projects = usta.projects || 'N/A';
+  const price = usta.price || 'N/A';
+
   return (
     <View style={styles.container}>
       {/* Header with Image */}
@@ -59,7 +68,7 @@ export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfi
         {/* Profile Info */}
         <View style={styles.profileInfo}>
           <Text style={styles.name}>{usta.name}</Text>
-          <Text style={styles.profession}>{usta.profession}</Text>
+          <Text style={styles.profession}>{profession}</Text>
           <View style={styles.ratingRow}>
             <View style={styles.rating}>
               <Star width={16} height={16} stroke="#facc15" />
@@ -78,12 +87,12 @@ export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfi
           <View style={styles.statBox}>
             <Clock width={24} height={24} stroke="#3b82f6" />
             <Text style={styles.statLabel}>Tajriba</Text>
-            <Text style={styles.statValue}>{usta.experience}</Text>
+            <Text style={styles.statValue}>{experience}</Text>
           </View>
           <View style={styles.statBox}>
             <Award width={24} height={24} stroke="#f97316" />
             <Text style={styles.statLabel}>Loyihalar</Text>
-            <Text style={styles.statValue}>{usta.projects}</Text>
+            <Text style={styles.statValue}>{projects}</Text>
           </View>
           <View style={styles.statBox}>
             <Star width={24} height={24} stroke="#facc15" />
@@ -96,7 +105,7 @@ export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfi
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Ma&apos;lumot</Text>
           <Text style={styles.sectionText}>
-            {usta.profession} sifatida professional tajribaga ega. Uy va ofis ishlarini sifatli bajaradi. Mijoz mamnunligiga kafolat beradi.
+            {profession} sifatida professional tajribaga ega. Uy va ofis ishlarini sifatli bajaradi. Mijoz mamnunligiga kafolat beradi.
           </Text>
         </View>
 
@@ -104,7 +113,7 @@ export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfi
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Ko&apos;nikmalar</Text>
           <View style={styles.skillsRow}>
-            {usta.skills.map((skill) => (
+            {skills.map((skill) => (
               <View key={skill} style={styles.skillBox}>
                 <Text style={styles.skillText}>{skill}</Text>
               </View>
@@ -120,7 +129,7 @@ export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfi
               <Text style={styles.showAll}>Barchasi</Text>
             </TouchableOpacity>
           </View>
-          {usta.reviewList.map((review, index) => (
+          {reviewList.map((review, index) => (
             <View key={index} style={styles.reviewBox}>
               <View style={styles.reviewHeader}>
                 <Text style={styles.reviewName}>{review.name}</Text>
@@ -140,7 +149,7 @@ export function UstaProfileScreen({ usta, onBack, onBooking, onChat }: UstaProfi
       {/* Bottom Actions */}
       <View style={styles.bottomBar}>
         <View style={styles.priceBox}>
-          <Text style={styles.price}>{usta.price}</Text>
+          <Text style={styles.price}>{price}</Text>
           <Text style={styles.priceUnit}>soat/sum</Text>
         </View>
         <View style={styles.actionsRow}>

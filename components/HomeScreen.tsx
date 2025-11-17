@@ -9,7 +9,7 @@ interface HomeScreenProps {
   onCategoryClick: (category: string) => void;
   onSearchClick: () => void;
   onOrdersClick: () => void;
-  onProfileClick?: (usta: any) => void;
+  onProfileClick?: (usta?: any) => void;
   currentTab?: 'home' | 'search' | 'orders' | 'profile';
 }
 
@@ -58,15 +58,27 @@ export function HomeScreen({
 }: HomeScreenProps) {
   const [selectedUsta, setSelectedUsta] = useState<any | null>(null);
 
+  // Map usta object to match UstaProfileScreenProps (map skill to profession, ensure all required fields)
   const handleUstaPress = (usta: any) => {
     setSelectedUsta({
-      ...usta
+      ...usta,
+      profession: usta.skill || usta.profession || '', // Map skill or profession to profession
+      skills: usta.skills || [],
+      experience: usta.experience || '',
+      projects: usta.projects || '',
+      price: usta.price || '',
+      reviewList: usta.reviewList || [],
     });
   };
 
   const handleBack = () => setSelectedUsta(null);
   const handleBooking = () => alert(`Buyurtma berish: ${selectedUsta?.name}`);
   const handleChat = () => alert(`Chat ochildi: ${selectedUsta?.name}`);
+
+  // Wrapper to match BottomNavigation type
+  const handleProfileClick = () => {
+    if (onProfileClick) onProfileClick(selectedUsta);
+  };
 
   if (selectedUsta) {
     return (
@@ -163,7 +175,7 @@ export function HomeScreen({
         onHomeClick={() => {}}
         onSearchClick={onSearchClick}
         onOrdersClick={onOrdersClick}
-        onProfileClick={onProfileClick}
+        onProfileClick={handleProfileClick} // Updated wrapper
       />
     </SafeAreaView>
   );
