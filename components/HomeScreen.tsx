@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Search, Zap, Wrench, Droplet, PaintBucket, Hammer, Wind, Home as HomeIcon } from 'lucide-react-native';
+import { Search, Zap, Wrench, Droplet, PaintBucket, Hammer, Wind } from 'lucide-react-native';
 import { BottomNavigation } from '../components/BottomNavigation';
+import { UstaProfileScreen } from './UstaProfileScreen';
 
 interface HomeScreenProps {
   onCategoryClick: (category: string) => void;
   onSearchClick: () => void;
   onOrdersClick: () => void;
-  onProfileClick: () => void;
+  onProfileClick?: (usta: any) => void;
   currentTab?: 'home' | 'search' | 'orders' | 'profile';
 }
 
@@ -21,6 +22,33 @@ const categories = [
   { id: 'ta-mirlash', name: "Ta'mirlash", icon: Wrench, color: '#6B7280' },
 ];
 
+const ustalar = [
+  { 
+    name: "Ahmadjon Karimov", skill: "Elektrik", rating: 4.9, reviews: 127, price: "80,000",
+    experience: "8 yil", projects: "350+", skills: ["Elektr tarmog‘i", "LED yoritish", "Generatorlar"], 
+    reviewList: [
+      { name: "Dilshod M.", rating: 5, comment: "Juda professional usta! Ishini a'lo bajaradi.", date: "2 kun oldin" },
+      { name: "Kamola A.", rating: 5, comment: "Tez va sifatli xizmat. Tavsiya qilaman.", date: "1 hafta oldin" },
+    ]
+  },
+  { 
+    name: "Sardor Yusupov", skill: "Santexnik", rating: 4.8, reviews: 98, price: "70,000",
+    experience: "5 yil", projects: "120+", skills: ["Qozon o‘rnatish", "Suv tizimi", "Vanna ta’miri"], 
+    reviewList: [
+      { name: "Mijoz A", rating: 5, comment: "Sifatli ish.", date: "3 kun oldin" },
+      { name: "Mijoz B", rating: 4, comment: "Tez bajarildi.", date: "1 hafta oldin" },
+    ]
+  },
+  { 
+    name: "Odiljon Toshmatov", skill: "Bo'yoqchi", rating: 4.7, reviews: 156, price: "60,000",
+    experience: "6 yil", projects: "200+", skills: ["Devorga bo‘yash", "Dekorativ bo‘yash", "Mebel bo‘yash"], 
+    reviewList: [
+      { name: "Mijoz C", rating: 5, comment: "A’lo sifat!", date: "5 kun oldin" },
+      { name: "Mijoz D", rating: 4, comment: "Tez ishladi.", date: "2 hafta oldin" },
+    ]
+  },
+];
+
 export function HomeScreen({
   onCategoryClick,
   onSearchClick,
@@ -28,6 +56,29 @@ export function HomeScreen({
   onProfileClick,
   currentTab = 'home',
 }: HomeScreenProps) {
+  const [selectedUsta, setSelectedUsta] = useState<any | null>(null);
+
+  const handleUstaPress = (usta: any) => {
+    setSelectedUsta({
+      ...usta
+    });
+  };
+
+  const handleBack = () => setSelectedUsta(null);
+  const handleBooking = () => alert(`Buyurtma berish: ${selectedUsta?.name}`);
+  const handleChat = () => alert(`Chat ochildi: ${selectedUsta?.name}`);
+
+  if (selectedUsta) {
+    return (
+      <UstaProfileScreen
+        usta={selectedUsta}
+        onBack={handleBack}
+        onBooking={handleBooking}
+        onChat={handleChat}
+      />
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -77,14 +128,16 @@ export function HomeScreen({
               <Text style={styles.linkText}>Barchasi</Text>
             </TouchableOpacity>
           </View>
-          {[
-            { name: "Ahmadjon Karimov", skill: "Elektrik", rating: 4.9, reviews: 127, price: "80,000" },
-            { name: "Sardor Yusupov", skill: "Santexnik", rating: 4.8, reviews: 98, price: "70,000" },
-            { name: "Odiljon Toshmatov", skill: "Bo'yoqchi", rating: 4.7, reviews: 156, price: "60,000" },
-          ].map((usta, index) => (
-            <TouchableOpacity key={index} style={styles.ustaCard}>
+          {ustalar.map((usta, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.ustaCard}
+              onPress={() => handleUstaPress(usta)}
+            >
               <View style={styles.ustaAvatar}>
-                <Text style={styles.avatarText}>{usta.name.split(' ').map(n => n[0]).join('')}</Text>
+                <Text style={styles.avatarText}>
+                  {usta.name.split(' ').map(n => n[0]).join('')}
+                </Text>
               </View>
               <View style={styles.ustaInfo}>
                 <Text style={styles.ustaName}>{usta.name}</Text>
@@ -105,14 +158,13 @@ export function HomeScreen({
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation */}
-     <BottomNavigation
-  currentTab="home"
-  onHomeClick={() => {}}
-  onSearchClick={onSearchClick}
-  onOrdersClick={onOrdersClick}
-  onProfileClick={onProfileClick}
-/>
+      <BottomNavigation
+        currentTab="home"
+        onHomeClick={() => {}}
+        onSearchClick={onSearchClick}
+        onOrdersClick={onOrdersClick}
+        onProfileClick={onProfileClick}
+      />
     </SafeAreaView>
   );
 }
@@ -146,10 +198,4 @@ const styles = StyleSheet.create({
   ustaPrice: { alignItems: 'flex-end' },
   price: { color: '#F97316', fontWeight: 'bold' },
   priceUnit: { color: '#9CA3AF', fontSize: 12 },
-  bottomNav: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 12, backgroundColor: '#252b3b' },
-  navButton: { alignItems: 'center' },
-  navButtonActive: {},
-  navText: { color: '#9CA3AF', fontSize: 12 },
-  navTextActive: { color: '#3B82F6' },
-  profileIcon: { width: 24, height: 24, borderRadius: 12, marginBottom: 2 },
 });
