@@ -3,11 +3,10 @@ import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { BottomNavigation } from '../components/BottomNavigation';
-
+import { UstaProfileScreen } from './UstaProfileScreen';
 
 interface SearchFilterScreenProps {
   onBack: () => void;
-  onSelectUsta: (id: number) => void;
   onHomeClick: () => void;
   onOrdersClick: () => void;
   onProfileClick: () => void;
@@ -23,7 +22,6 @@ const professionals = [
 
 export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
   onBack,
-  onSelectUsta,
   onHomeClick,
   onOrdersClick,
   onProfileClick,
@@ -33,12 +31,40 @@ export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
   const [selectedSkill, setSelectedSkill] = useState('Barchasi');
   const [priceRange, setPriceRange] = useState([0, 200000]);
   const [minRating, setMinRating] = useState(0);
+  const [selectedUsta, setSelectedUsta] = useState<typeof professionals[0] | null>(null);
 
   const skills = ['Barchasi', 'Elektrik', 'Santexnik', "Bo'yoqchi", 'Duradgor', 'Konditsioner'];
 
+  const handleSelectUsta = (usta: typeof professionals[0]) => {
+    const mappedUsta = {
+      ...usta,
+      profession: usta.skill || '',
+      skills: ['Usta xizmatlari', 'Malakali', 'Tajriba bor'],
+      experience: '3 yil',
+      projects: '100+',
+      price: usta.price ?? '',
+      reviewList: [
+        { name: 'Mijoz A', rating: 5, comment: 'Yaxshi usta', date: '1 kun oldin' },
+      ],
+    };
+
+    setSelectedUsta(mappedUsta);
+  };
+
+  if (selectedUsta) {
+    return (
+      <UstaProfileScreen
+        usta={selectedUsta}
+        onBack={() => setSelectedUsta(null)}
+        onBooking={() => {}}
+        onChat={() => {}}
+      />
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 170 }} 
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }} 
       >
 
       
@@ -140,7 +166,7 @@ export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
         {professionals.map((usta) => (
           <TouchableOpacity
             key={usta.id}
-            onPress={() => onSelectUsta(usta.id)}
+            onPress={() => handleSelectUsta(usta)}
             style={styles.ustaCard}
           >
             <View style={styles.ustaAvatar}>
@@ -207,9 +233,9 @@ const styles = StyleSheet.create({
   ratingTextActive: { color: '#fff', marginLeft: 4 },
   priceWrapper: { flexDirection: 'row', marginBottom: 16, paddingHorizontal: 16 },
   priceInput: { flex: 1, backgroundColor: '#252b3b', borderWidth: 1, borderColor: '#374151', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6, color: '#fff', marginRight: 8 },
-  resultsText: { color: '#9ca3af', marginVertical: 12, paddingHorizontal: 16 },
-  ustaCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#252b3b', borderWidth: 1, borderColor: '#374151', borderRadius: 16, padding: 12, marginHorizontal: 16, marginBottom: 12 },
-  ustaAvatar: { width: 64, height: 64, borderRadius: 16, backgroundColor: '#3b82f6', alignItems: 'center', justifyContent: 'center' },
+  resultsText: { color: '#9ca3af', marginVertical: 16, paddingHorizontal: 16 },
+  ustaCard: { flexDirection: 'row', backgroundColor: '#252b3b', borderRadius: 16, padding: 16, marginBottom: 12, alignItems: 'center' },
+  ustaAvatar: { width: 64, height: 64, borderRadius: 16, backgroundColor: '#3B82F6', justifyContent: 'center', alignItems: 'center', marginRight: 12 },
   ustaAvatarText: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
   ustaInfo: { flex: 1, marginLeft: 12 },
   ustaName: { color: '#fff', fontSize: 16, fontWeight: 'bold' },

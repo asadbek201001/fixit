@@ -182,7 +182,7 @@ const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#1a1f2e' },
   header: { height: 160, justifyContent: 'flex-start', paddingTop: 24, paddingHorizontal: 16, position: 'relative' },
-  headerTop: { flexDirection: 'row', justifyContent: 'space-between', zIndex: 10 },
+  headerTop: { flexDirection: 'row', justifyContent: 'space-between', zIndex: 10, marginTop: 20 },
   iconButton: { width: 40, height: 40, backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
   avatarWrapper: { position: 'absolute', bottom: -40, left: (windowWidth - 128) / 2, width: 128, height: 128, borderRadius: 24, borderWidth: 4, borderColor: '#1a1f2e', overflow: 'hidden', justifyContent: 'center', alignItems: 'center' },
   avatar: { flex: 1, borderRadius: 24, justifyContent: 'center', alignItems: 'center' },

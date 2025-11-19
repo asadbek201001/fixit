@@ -76,7 +76,7 @@ export function UstaDashboard({ onBack }: UstaDashboardProps) {
               style={styles.statCard}
             >
               <LinearGradient
-                colors={stat.color}
+                colors={stat.color as [string, string]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.statIconContainer}
