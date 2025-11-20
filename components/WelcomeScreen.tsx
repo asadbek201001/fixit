@@ -7,10 +7,11 @@ import { Wrench } from 'lucide-react-native';
 import { Easing } from 'react-native-reanimated';
 
 interface WelcomeScreenProps {
-  onGetStarted: () => void;
+  onSignup: () => void;
+  onLogin: () => void;
 }
 
-export function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
+export function WelcomeScreen({ onSignup, onLogin }: WelcomeScreenProps) {
   return (
     <View style={styles.container}>
       {/* Icon */}
@@ -55,7 +56,7 @@ export function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         transition={{ delay: 600, type: 'timing', duration: 600 }}
         style={styles.buttonsContainer}
       >
-        <Pressable style={styles.primaryButton} onPress={onGetStarted}>
+        <Pressable style={styles.primaryButton} onPress={onSignup}>
           <Text style={styles.primaryButtonText}>Boshlash</Text>
         </Pressable>
 
@@ -65,7 +66,7 @@ export function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
           <View style={styles.separatorLine} />
         </View>
 
-        <Pressable style={styles.secondaryButton} onPress={onGetStarted}>
+        <Pressable style={styles.secondaryButton} onPress={onLogin}>
           <Text style={styles.secondaryButtonText}>Akkauntga kirish</Text>
         </Pressable>
       </MotiView>

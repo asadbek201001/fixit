@@ -66,7 +66,12 @@ export default function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case 'welcome':
-        return <WelcomeScreen onGetStarted={() => setCurrentScreen('signup')} />;
+        return (
+          <WelcomeScreen
+            onSignup={() => setCurrentScreen('signup')}
+            onLogin={() => setCurrentScreen('login')}
+          />
+        );
       case 'login':
         return (
           <LoginScreen
@@ -78,7 +83,7 @@ export default function App() {
       case 'signup':
         return (
           <SignupScreen
-            onBack={() => setCurrentScreen('login')}
+            onBack={() => setCurrentScreen('welcome')}
             onSignup={handleSignup}
           />
         );
