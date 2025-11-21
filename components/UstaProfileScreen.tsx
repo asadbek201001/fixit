@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { ArrowLeft, Star, MapPin, Clock, Award, MessageCircle } from 'react-native-feather';
 
 interface UstaProfileScreenProps {
-  usta: {
+  usta?: {
     name: string;
     profession?: string;
     location?: string;

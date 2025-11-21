@@ -143,7 +143,7 @@ export default function App() {
       case 'ustaDashboard':
         return <UstaDashboard onBack={() => setCurrentScreen('welcome')} />;
       default:
-        return <WelcomeScreen onGetStarted={() => setCurrentScreen('signup')} />;
+        return null;
     }
   };
 

@@ -10,6 +10,7 @@ interface SearchFilterScreenProps {
   onHomeClick: () => void;
   onOrdersClick: () => void;
   onProfileClick: () => void;
+  onSelectUsta?: (usta: typeof professionals[0]) => void;
 }
 
 const professionals = [
@@ -25,6 +26,7 @@ export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
   onHomeClick,
   onOrdersClick,
   onProfileClick,
+  onSelectUsta,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,6 +38,7 @@ export const SearchFilterScreen: React.FC<SearchFilterScreenProps> = ({
   const skills = ['Barchasi', 'Elektrik', 'Santexnik', "Bo'yoqchi", 'Duradgor', 'Konditsioner'];
 
   const handleSelectUsta = (usta: typeof professionals[0]) => {
+    if (onSelectUsta) onSelectUsta(usta);
     const mappedUsta = {
       ...usta,
       profession: usta.skill || '',
